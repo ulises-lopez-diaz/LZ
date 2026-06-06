@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Para Liz Zapata 💘</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #fff0f5;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: env(safe-area-inset-top, 16px) env(safe-area-inset-right, 16px) env(safe-area-inset-bottom, 16px) env(safe-area-inset-left, 16px);
+    }
+
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .heart-float {
+      position: absolute;
+      font-size: 18px;
+      animation: floatUp 4s ease-in infinite;
+      opacity: 0;
+    }
+
+    @keyframes floatUp {
+      0%   { opacity: 0; transform: translateY(0) scale(0.5); }
+      20%  { opacity: 0.6; }
+      80%  { opacity: 0.4; }
+      100% { opacity: 0; transform: translateY(-110px) scale(1.2); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+      padding: 1rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #fcd6e2;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(232,82,122,0.10);
+    }
+
+    .emoji-big {
+      font-size: clamp(44px, 14vw, 58px);
+      display: block;
+      margin-bottom: 1rem;
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.12); }
+    }
+
+    .name {
+      font-size: clamp(18px, 5vw, 22px);
+      font-weight: 600;
+      color: #c2185b;
+      margin-bottom: 0.75rem;
+    }
+
+    .message {
+      font-size: clamp(14px, 3.8vw, 15px);
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn-yes {
+      background: #e8527a;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 0;
+      font-size: clamp(15px, 4vw, 16px);
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      margin-bottom: 16px;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .btn-yes:hover  { background: #d63f68; }
+    .btn-yes:active { transform: scale(0.97); background: #d63f68; }
+
+    .no-wrapper {
+      min-height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .btn-no {
+      background: transparent;
+      color: #999;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 11px 28px;
+      font-size: clamp(13px, 3.5vw, 14px);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: transform 0.3s ease;
+      display: inline-block;
+      position: relative;
+      touch-action: manipulation;
+    }
+
+    .screen { display: none; }
+    .screen.active { display: block; }
+
+    .confetti-piece {
+      position: fixed;
+      border-radius: 2px;
+      animation: fall 2.5s ease-in forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(-20px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    .footer-note {
+      font-size: 12px;
+      color: #bbb;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="hearts-bg" id="heartsBg"></div>
+
+<div class="container">
+
+  <div class="card screen active" id="screen1">
+    <span class="emoji-big">💘</span>
+    <p class="name">Liz Zapata :3</p>
+    <p class="message">
+      Me gustaste mucho desde el minuto uno🌹. He sido muy feliz a tu lado y disfruto mucho estando contigo ❤️<br><br>
+      Así que aquí estoy, con todo el valor del mundo,<br>para preguntarte algo importante...
+    </p>
+    <button class="btn-yes" onclick="showScreen('screen2')">Continuar ❤️</button>
+  </div>
+
+  <div class="card screen" id="screen2">
+    <span class="emoji-big">🥺</span>
+    <p class="name">¿Quieres ser mi novia?</p>
+    <p class="message">
+      Me gustas mucho, Liz. Me haces reír,<br>me haces pensar, me encanta ser awwtista a tu lado XD, y me haces querer ser mejor todos los días :3<br><br>
+      Prometo cuidarte, hacerte reír<br>y estar ahí para ti para lo que necesites. 🫶
+    </p>
+    <button class="btn-yes" onclick="yesClicked()">💖 ¡Sí quiero!</button>
+    <div class="no-wrapper">
+      <button class="btn-no" id="btnNo" ontouchstart="moveNoBtn()" onmouseenter="moveNoBtn()" onclick="moveNoBtn()">Mmm no sé...</button>
+    </div>
+  </div>
+
+  <div class="card screen" id="screen3">
+    <span class="emoji-big">🎉</span>
+    <p class="name">¡Dijiste SÍ! 🥳</p>
+    <p class="message">
+      ¡Liz, me hiciste el chico más feliz del mundo! 🌎✨<br><br>
+      Te prometo que juntos vamos a salir adelante, lit tú y yo contra el mundo 💕
+    </p>
+  </div>
+
+</div>
+
+<script>
+  (function startHearts() {
+    const bg = document.getElementById('heartsBg');
+    const emojis = ['❤️','💕','🌸','💗','✨','💫','🌹'];
+    setInterval(() => {
+      const h = document.createElement('span');
+      h.className = 'heart-float';
+      h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      h.style.left = (Math.random() * 92) + '%';
+      h.style.bottom = '0';
+      h.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      h.style.animationDelay = (Math.random() * 0.5) + 's';
+      bg.appendChild(h);
+      setTimeout(() => h.remove(), 5000);
+    }, 600);
+  })();
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  let noCount = 0;
+  function moveNoBtn() {
+    noCount++;
+    const messages = ['Piénsalo mejor...', 'Ándale, di que sí 🥺', 'No me hagas esto 😢', '¡Casi casi!', 'Seguro que sí 💖'];
+    const btn = document.getElementById('btnNo');
+    btn.textContent = messages[Math.min(noCount - 1, messages.length - 1)];
+
+    const wrapper = btn.parentElement;
+    const wrapperRect = wrapper.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+
+    const maxX = Math.min(80, (wrapperRect.width - btnRect.width) / 2);
+    const maxY = 14;
+    const x = (Math.random() - 0.5) * 2 * maxX;
+    const y = (Math.random() - 0.5) * 2 * maxY;
+
+    btn.style.transform = `translate(${x}px, ${y}px)`;
+    setTimeout(() => { btn.style.transform = 'translate(0,0)'; }, 900);
+  }
+
+  function yesClicked() {
+    showScreen('screen3');
+    launchConfetti();
+  }
+
+  function launchConfetti() {
+    const colors = ['#e8527a','#f4a7b9','#f9c74f','#90be6d','#577590','#f3722c','#c77dff'];
+    for (let i = 0; i < 80; i++) {
+      setTimeout(() => {
+        const c = document.createElement('div');
+        c.className = 'confetti-piece';
+        c.style.left   = (Math.random() * 98) + 'vw';
+        c.style.top    = '-20px';
+        c.style.width  = (6 + Math.random() * 8) + 'px';
+        c.style.height = (6 + Math.random() * 8) + 'px';
+        c.style.background = colors[Math.floor(Math.random() * colors.length)];
+        c.style.animationDuration = (1.5 + Math.random() * 2) + 's';
+        c.style.animationDelay   = (Math.random() * 0.8) + 's';
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 4000);
+      }, i * 25);
+    }
+  }
+</script>
+</body>
+</html>
